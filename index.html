@@ -57,4 +57,197 @@
 
     <div class="form-group">
         <label>Khối lượng rác thải sinh hoạt (kg/tháng): <span id="valRac" style="color:#58a6ff;">10</span></label>
-        <input type="range" id="kgRac" min="0" max="50" value="10" oninput="tinhTo
+        <input type="range" id="kgRac" min="0" max="50" value="10" oninput="tinhToanToanBo()">
+    </div>
+
+    <h2>📉 2. Kết quả phân tích nguồn phát thải</h2>
+    <div class="result-box">
+        <div>Tổng lượng phát thải CO2 của gia đình bạn:</div>
+        <div class="metric" id="tongCarbon">0.00 kg CO2 / tháng</div>
+        <div id="statusText" style="margin-top: 8px; font-weight: bold; font-size: 15px;"></div>
+    </div>
+
+    <div class="progress-container">
+        <b style="color: #58a6ff; display: block; margin-bottom: 10px;">🔬 Tỷ lệ phân bổ các nguồn gây ô nhiễm:</b>
+        
+        <div style="display: flex; justify-content: space-between; font-size: 14px;">
+            <span>🛵 Nhiên liệu xe máy: <span id="ptXang">0%</span></span>
+            <span id="txtXangKg" style="color: #8b949e;">0 kg CO2</span>
+        </div>
+        <div class="progress-bar"><div id="barXang" class="progress-fill"></div></div>
+        
+        <div style="display: flex; justify-content: space-between; font-size: 14px;">
+            <span>🔌 Điện năng sinh hoạt: <span id="ptDien">0%</span></span>
+            <span id="txtDienKg" style="color: #8b949e;">0 kg CO2</span>
+        </div>
+        <div class="progress-bar"><div id="barDien" class="progress-fill" style="background: #388bfd;"></div></div>
+        
+        <div style="display: flex; justify-content: space-between; font-size: 14px;">
+            <span>🗑️ Rác thải sinh hoạt: <span id="ptRac">0%</span></span>
+            <span id="txtRacKg" style="color: #8b949e;">0 kg CO2</span>
+        </div>
+        <div class="progress-bar"><div id="barRac" class="progress-fill" style="background: #56d364;"></div></div>
+        
+        <div id="compareBox" style="margin-top: 10px; font-size: 13px; color: #8b949e; border-top: 1px dashed #30363d; padding-top: 10px; text-align: center;">
+        </div>
+    </div>
+
+    <h2>📖 3. Cơ sở khoa học & Công thức toán học</h2>
+    <p style="font-size: 14px; color: #8b949e;">Lượng phát thải được tính toán tự động dựa trên phương trình định lượng khí nhà kính tiêu chuẩn:</p>
+    <div class="formula-box">
+        E_total = (V_xăng × K_xăng) + (E_điện × K_điện) + (W_rác × K_rác)
+    </div>
+    <ul style="font-size: 13px; color: #8b949e; padding-left: 20px; line-height: 1.6;">
+        <li><b>K_xăng thường</b> = 2.3 | <b>K_xăng E10</b> = 2.07 (giảm phát thải nhờ 10% cồn sinh học từ sắn/ngô).</li>
+        <li><b>K_điện</b> = 0.8 (Hệ số phát thải lưới điện quốc gia Việt Nam).</li>
+        <li><b>K_rác</b> = 0.5 (Khí thải sinh ra từ quá trình chôn lấp, phân hủy rác sinh hoạt).</li>
+    </ul>
+
+    <h2>💡 4. Đề xuất giải pháp cắt giảm Carbon</h2>
+    <div id="adviceBox" class="info-card"></div>
+
+    <h2>🎯 5. Nhật ký hành động xanh & Đổi Rank</h2>
+    <p style="color: #8b949e; font-size: 14px;">Tích chọn những hành động bảo vệ môi trường bạn đã làm được ngày hôm nay để nâng cấp Rank:</p>
+    
+    <div class="task-item" onclick="toggleCheck('nv1')">
+        <input type="checkbox" id="nv1" onclick="event.stopPropagation(); tinhDiemRank();">
+        <div>🚲 Đi bộ hoặc đi xe đạp đối với quãng đường ngắn dưới 2km (+20 điểm)</div>
+    </div>
+    <div class="task-item" onclick="toggleCheck('nv2')">
+        <input type="checkbox" id="nv2" onclick="event.stopPropagation(); tinhDiemRank();">
+        <div>🔌 Tắt điều hòa khi ra ngoài, rút phích cắm các thiết bị điện (+20 điểm)</div>
+    </div>
+    <div class="task-item" onclick="toggleCheck('nv3')">
+        <input type="checkbox" id="nv3" onclick="event.stopPropagation(); tinhDiemRank();">
+        <div>🥤 Mang theo bình nước cá nhân, từ chối ly nhựa dùng 1 lần (+20 điểm)</div>
+    </div>
+    <div class="task-item" onclick="toggleCheck('nv4')">
+        <input type="checkbox" id="nv4" onclick="event.stopPropagation(); tinhDiemRank();">
+        <div>🗑️ Thực hiện phân loại rác tái chế và rác hữu cơ ngay tại nhà (+20 điểm)</div>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px; background: #21262d; padding: 15px; border-radius: 8px; border: 1px dashed #4caf50;">
+        <div style="font-size: 15px;">Điểm hành động tích lũy: <b id="txtDiem" style="color: #58a6ff;">0</b> / 80 điểm</div>
+        <div id="badgeRank" class="rank-badge">🥚 Trứng Non Sống Xanh</div>
+    </div>
+
+    <div style="text-align: center; margin-top: 40px; color: #8b949e; font-size: 12px; border-top: 1px solid #30363d; padding-top: 15px;">
+        By Tran Chi Chuong -- Deril Tran -- HGH.
+    </div>
+</div>
+
+<script>
+// Hàm xử lý logic tính dấu chân Carbon và đề xuất giải pháp
+function tinhToanToanBo() {
+    let heSoXang = parseFloat(document.getElementById('loaiXang').value);
+    let litXang = parseFloat(document.getElementById('litXang').value);
+    let soDien = parseFloat(document.getElementById('soDien').value);
+    let kgRac = parseFloat(document.getElementById('kgRac').value);
+
+    // Hiển thị số liệu kế bên thanh trượt
+    document.getElementById('valXang').innerText = litXang;
+    document.getElementById('valDien').innerText = soDien;
+    document.getElementById('valRac').innerText = kgRac;
+
+    // Áp dụng công thức khoa học
+    let carbonXang = litXang * heSoXang;
+    let carbonDien = soDien * 0.8;
+    let carbonRac = kgRac * 0.5;
+    let tong = carbonXang + carbonDien + carbonRac;
+
+    // Xuất tổng điểm phát thải
+    document.getElementById('tongCarbon').innerText = tong.toFixed(2) + " kg CO2 / tháng";
+
+    // Phân loại mức độ ô nhiễm
+    let status = document.getElementById('statusText');
+    if(tong < 60) {
+        status.innerText = "🌟 Tuyệt vời! Bạn đang duy trì lối sống rất Xanh.";
+        status.style.color = "#56d364";
+    } else if(tong <= 180) {
+        status.innerText = "⚠️ Mức trung bình! Vẫn có thể tối ưu hơn nữa.";
+        status.style.color = "#e3b341";
+    } else {
+        status.innerText = "🚨 Báo động! Mức phát thải quá cao, cần cắt giảm!";
+        status.style.color = "#f85149";
+    }
+
+    // Cập nhật các thanh đồ thị phần trăm động
+    if(tong > 0) {
+        let pXang = (carbonXang / tong) * 100;
+        let pDien = (carbonDien / tong) * 100;
+        let pRac = (carbonRac / tong) * 100;
+
+        document.getElementById('ptXang').innerText = pXang.toFixed(1) + "%";
+        document.getElementById('barXang').style.width = pXang + "%";
+        document.getElementById('txtXangKg').innerText = carbonXang.toFixed(1) + " kg CO2";
+
+        document.getElementById('ptDien').innerText = pDien.toFixed(1) + "%";
+        document.getElementById('barDien').style.width = pDien + "%";
+        document.getElementById('txtDienKg').innerText = carbonDien.toFixed(1) + " kg CO2";
+
+        document.getElementById('ptRac').innerText = pRac.toFixed(1) + "%";
+        document.getElementById('barRac').style.width = pRac + "%";
+        document.getElementById('txtRacKg').innerText = carbonRac.toFixed(1) + " kg CO2";
+    }
+
+    // TÍNH NĂNG MỚI: So sánh trực quan với mức trung bình quốc gia (Mức chuẩn: 120 kg CO2/tháng/hộ học sinh)
+    let soSanhBox = document.getElementById('compareBox');
+    let mucChuan = 120;
+    if (tong < mucChuan) {
+        let phanTramThap = ((mucChuan - tong) / mucChuan * 100).toFixed(0);
+        soSanhBox.innerHTML = `📉 Lượng khí thải của bạn <b>thấp hơn ${phanTramThap}%</b> so với mức trung bình của một gia đình học sinh tiêu chuẩn.`;
+    } else {
+        let phanTramCao = ((tong - mucChuan) / mucChuan * 100).toFixed(0);
+        soSanhBox.innerHTML = `📈 Lượng khí thải của bạn <b>cao hơn ${phanTramCao}%</b> so với mức trung bình. Hãy thực hiện nhiệm vụ xanh bên dưới!`;
+    }
+
+    // Đề xuất giải pháp động thông minh dựa trên nguồn ô nhiễm lớn nhất
+    let advice = document.getElementById('adviceBox');
+    if(carbonXang > carbonDien && carbonXang > carbonRac) {
+        advice.innerHTML = "🚲 <b>Giải pháp cốt lõi cho Đi lại:</b> Nguồn phát thải từ xăng xe máy của bạn đang chiếm ưu thế. Hãy tăng cường đi bộ hoặc đi xe đạp cho quãng đường ngắn. Khi cần thiết, hãy khuyên gia đình chuyển sang dùng <b>Xăng sinh học E10</b> để cắt giảm ngay 10% độc hại ra môi trường.";
+    } else if(carbonDien > carbonXang && carbonDien > carbonRac) {
+        advice.innerHTML = "🔌 <b>Giải pháp cốt lõi cho Năng lượng:</b> Tiêu thụ điện năng đang là nguyên nhân lớn nhất. Hãy rèn luyện thói quen tắt đèn, tắt quạt khi ra khỏi phòng, cài đặt nhiệt độ điều hòa từ 26°C trở lên và tận dụng ánh sáng tự nhiên vào ban ngày.";
+    } else {
+        advice.innerHTML = "🛍️ <b>Giải pháp cốt lõi cho Tiêu dùng:</b> Lượng rác thải sinh hoạt của bạn khá lớn. Hãy hạn chế tối đa việc sử dụng túi nilon, thực hiện phân loại rác nhựa có thể tái chế ngay tại nhà để giảm gánh nặng cho các bãi chôn lấp.";
+    }
+}
+
+// TÍNH NĂNG MỚI: Hàm xử lý logic tính điểm và thăng hạng Rank (Gamification)
+function tinhDiemRank() {
+    let diem = 0;
+    if(document.getElementById('nv1').checked) diem += 20;
+    if(document.getElementById('nv2').checked) diem += 20;
+    if(document.getElementById('nv3').checked) diem += 20;
+    if(document.getElementById('nv4').checked) diem += 20;
+
+    document.getElementById('txtDiem').innerText = diem;
+
+    let badge = document.getElementById('badgeRank');
+    if(diem === 0) {
+        badge.innerText = "🥚 Trứng Non Sống Xanh";
+        badge.style.background = "#6e7681";
+    } else if(diem <= 40) {
+        badge.innerText = "🌱 Chiến Binh Tập Sự";
+        badge.style.background = "#1f6feb";
+    } else if(diem <= 60) {
+        badge.innerText = "🌳 Trưởng Thành Vì Môi Trường";
+        badge.style.background = "#b652da";
+    } else {
+        badge.innerText = "👑 HUYỀN THOẠI BẢO VỆ MÔI TRƯỜNG!";
+        badge.style.background = "#238636";
+    }
+}
+
+// Mẹo nhỏ: Bấm vào vùng hàng nhiệm vụ cũng tự động tích chọn checkbox cho tiện
+function toggleCheck(id) {
+    let cb = document.getElementById(id);
+    cb.checked = !cb.checked;
+    tinhDiemRank();
+}
+
+// Chạy khởi động lần đầu khi tải trang web
+tinhToanToanBo();
+tinhDiemRank();
+</script>
+</body>
+</html>
