@@ -214,6 +214,46 @@
             margin-top: 5px;
         }
 
+        /* Khối kiến thức bổ sung ở phía dưới */
+        .why-calc-section {
+            background: #161a23;
+            padding: 20px;
+            border-top: 1px solid #262c36;
+            overflow-y: auto;
+            max-height: 25vh; /* Khống chế chiều cao để giữ nguyên chuẩn Full-screen không bị tràn màn hình chính */
+        }
+
+        .why-calc-grid {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .why-calc-card {
+            background: #0f141c;
+            padding: 15px;
+            border-radius: 8px;
+            width: 30%;
+            min-width: 220px;
+            border: 1px solid #2d3545;
+            box-sizing: border-box;
+        }
+
+        .why-calc-card h3 {
+            margin: 8px 0;
+            font-size: 14px;
+            color: #58a6ff;
+        }
+
+        .why-calc-card p {
+            margin: 0;
+            font-size: 12px;
+            color: #c9d1d9;
+            line-height: 1.4;
+        }
+
         footer {
             background: #0f141c;
             padding: 6px 20px;
@@ -295,7 +335,6 @@
         </div>
 
         <div class="right-panel">
-            
             <h2>🌳 3. Chỉ số bù đắp sinh thái (Footprint Calc)</h2>
             <div class="tree-counter-box">
                 <div style="font-size: 14px; font-weight: bold; color: #ffffff;">Số lượng cây xanh bạn cần trồng trong 1 năm để hấp thụ hết lượng CO2 này:</div>
@@ -339,29 +378,27 @@
         </div>
 
     </div>
-<div id="compareBox" style="margin-top: 8px; font-size: 12.5px; color: #8b949e; border-top: 1px dashed #2d3545; padding-top: 8px; text-align: center;"></div>
-</div>
 
-<section style="margin: 30px 25px; font-family: sans-serif; background: #161a23; padding: 20px; border-radius: 12px;">
-    <h2 style="text-align: center; color: #4caf50;">Tại sao bạn nên tính toán Dấu chân Carbon?</h2>
-    <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin-top: 15px;">
-        <div style="background: #0f141c; padding: 20px; border-radius: 12px; width: 30%; min-width: 250px; border: 1px solid #2d3545;">
-            <div style="font-size: 30px;">🌍</div>
-            <h3 style="color: #58a6ff;">Hiểu về tác động</h3>
-            <p style="font-size: 14px; color: #c9d1d9;">Biết được lượng khí thải cá nhân giúp bạn hiểu rõ mình đang tác động thế nào đến môi trường.</p>
+    <section class="why-calc-section">
+        <h2 style="text-align: center; color: #4caf50; font-size: 15px; margin: 0 0 10px 0; border-bottom: none; padding-bottom: 0;">Tại sao bạn nên tính toán Dấu chân Carbon?</h2>
+        <div class="why-calc-grid">
+            <div class="why-calc-card">
+                <div style="font-size: 22px;">🌍</div>
+                <h3>Hiểu về tác động</h3>
+                <p>Biết được lượng khí thải cá nhân giúp bạn hiểu rõ thói quen sinh hoạt của mình đang ảnh hưởng như thế nào đến môi trường trái đất.</p>
+            </div>
+            <div class="why-calc-card">
+                <div style="font-size: 22px;">💰</div>
+                <h3>Tiết kiệm chi phí</h3>
+                <p>Những hành động nhỏ như tắt bớt đèn, tiết kiệm xăng không chỉ bảo vệ hành tinh mà còn giảm trực tiếp hóa đơn tiền điện nhà bạn.</p>
+            </div>
+            <div class="why-calc-card">
+                <div style="font-size: 22px;">🎯</div>
+                <h3>Hành động ngay</h3>
+                <p>Dựa trên các số liệu thực tế được cá nhân hóa, hệ thống sẽ đề xuất cho bạn những giải pháp tối ưu, dễ thực hiện nhất hàng ngày.</p>
+            </div>
         </div>
-        <div style="background: #0f141c; padding: 20px; border-radius: 12px; width: 30%; min-width: 250px; border: 1px solid #2d3545;">
-            <div style="font-size: 30px;">💰</div>
-            <h3 style="color: #58a6ff;">Tiết kiệm chi phí</h3>
-            <p style="font-size: 14px; color: #c9d1d9;">Những thay đổi nhỏ trong lối sống giúp bảo vệ hành tinh và tiết kiệm chi phí sinh hoạt đáng kể.</p>
-        </div>
-        <div style="background: #0f141c; padding: 20px; border-radius: 12px; width: 30%; min-width: 250px; border: 1px solid #2d3545;">
-            <div style="font-size: 30px;">🎯</div>
-            <h3 style="color: #58a6ff;">Hành động ngay</h3>
-            <p style="font-size: 14px; color: #c9d1d9;">Nhận các gợi ý cá nhân hóa để đạt được kết quả lớn nhất với nỗ lực ít nhất.</p>
-        </div>
-    </div>
-</section>
+    </section>
     
     <footer>
         © 2026 Dự án EcoFootprint - Cuộc thi Sáng tạo Thanh thiếu niên, Nhi đồng thành phố Cần Thơ.
@@ -381,20 +418,17 @@ function tinhToanToanBo() {
     document.getElementById('valDien').innerText = soDien;
     document.getElementById('valRac').innerText = kgRac;
 
-    // TÍNH NĂNG 1: Thay đổi emoji động theo mức tiêu thụ (Phong cách hình ảnh trực quan)
-    // Cập nhật emoji xe máy
+    // TÍNH NĂNG 1: Thay đổi emoji động theo mức tiêu thụ
     let emojiXang = document.getElementById('emojiXang');
     if (litXang === 0) { emojiXang.innerText = "🚲"; }
     else if (litXang <= 20) { emojiXang.innerText = "🛵"; }
-    else { emojiXang.innerText = "🚗💨"; emojiXang.style.transform = "scale(1.2)"; }
+    else { emojiXang.innerText = "🚗💨"; emojiXang.style.transform = "scale(1.1)"; }
 
-    // Cập nhật emoji điện năng
     let emojiDien = document.getElementById('emojiDien');
     if (soDien <= 50) { emojiDien.innerText = "🌱"; }
     else if (soDien <= 200) { emojiDien.innerText = "💡"; }
     else { emojiDien.innerText = "⚡🔥"; }
 
-    // Cập nhật emoji rác thải
     let emojiRac = document.getElementById('emojiRac');
     if (kgRac <= 5) { emojiRac.innerText = "🍃"; }
     else if (kgRac <= 20) { emojiRac.innerText = "🗑️"; }
@@ -405,12 +439,11 @@ function tinhToanToanBo() {
     let carbonDien = soDien * 0.8;
     let carbonRac = kgRac * 0.5;
     let tongThang = carbonXang + carbonDien + carbonRac;
-    let tongNam = tongThang * 12; // Quy đổi ra 1 năm để tính số cây xanh
+    let tongNam = tongThang * 12;
 
     document.getElementById('tongCarbon').innerText = tongThang.toFixed(2) + " kg CO2 / tháng";
 
-    // TÍNH NĂNG 2: Quy đổi ra số cây xanh cần trồng trong 1 năm (Khớp chuẩn khoa học quốc tế)
-    // 1 cây xanh trung bình hấp thụ được 22 kg CO2 một năm
+    // TÍNH NĂNG 2: Quy đổi ra số cây xanh cần trồng trong 1 năm
     let soCayCanTrong = Math.ceil(tongNam / 22);
     document.getElementById('treeCount').innerText = soCayCanTrong + " Cây xanh / năm";
 
@@ -446,7 +479,7 @@ function tinhToanToanBo() {
         document.getElementById('txtRacKg').innerText = carbonRac.toFixed(1) + " kg CO2";
     }
 
-    // So sánh định lượng với hộ học sinh chuẩn quốc gia (Chuẩn: 120 kg CO2/tháng)
+    // So sánh với mức chuẩn trung bình học sinh (120 kg CO2/tháng)
     let soSanhBox = document.getElementById('compareBox');
     let mucChuan = 120;
     if (tongThang < mucChuan) {
@@ -457,14 +490,14 @@ function tinhToanToanBo() {
         soSanhBox.innerHTML = `📈 Chỉ số phát thải của bạn <b>cao hơn ${phanTramCao}%</b> so với trung bình quốc gia.`;
     }
 
-    // Đề xuất giải pháp thông minh
+    // Đề xuất giải pháp
     let advice = document.getElementById('adviceBox');
     if(carbonXang > carbonDien && carbonXang > carbonRac) {
-        advice.innerHTML = "🚲 <b>Hành động:</b> Khí thải từ xe máy đang lớn nhất. Nên ưu tiên đi bộ, đi xe đạp hoặc khuyến khích gia đình đổ dòng <b>Xăng sinh học E10</b> để giảm bớt 10% lượng khí thải độc hại.";
+        advice.innerHTML = "🚲 <b>Hành động:</b> Khí thải từ xe máy đang lớn nhất. Nên ưu tiên đi bộ, đi xe đạp hoặc khuyến khích gia đình đổi sang <b>Xăng sinh học E10</b> để bớt khí thải độc hại.";
     } else if(carbonDien > carbonXang && carbonDien > carbonRac) {
-        advice.innerHTML = "🔌 <b>Hành động:</b> Tiêu thụ điện năng đang dẫn đầu nguồn ô nhiễm. Rèn luyện thói quen rút phích cắm các thiết bị điện khi không dùng và tận dụng ánh sáng mặt trời ban ngày nha bồ.";
+        advice.innerHTML = "🔌 <b>Hành động:</b> Tiêu thụ điện năng đang dẫn đầu nguồn ô nhiễm. Tập thói quen rút phích cắm các thiết bị điện khi không dùng và đặt điều hòa trên 26°C nha bồ.";
     } else {
-        advice.innerHTML = "🛍️ <b>Hành động:</b> Lượng rác thải sinh hoạt phát sinh khá cao. Hãy hạn chế dùng đồ nhựa một lần, tăng cường phân loại rác hữu cơ tại nhà để làm phân bón cây trồng.";
+        advice.innerHTML = "🛍️ <b>Hành động:</b> Lượng rác thải sinh hoạt phát sinh khá cao. Hãy hạn chế dùng đồ nhựa một lần và thực hiện phân loại rác tái chế ngay tại nhà nhé!";
     }
 }
 
