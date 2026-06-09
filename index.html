@@ -3,31 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoFootprint - Ứng Dụng Đo Lường Dấu Chân Carbon</title>
+    <title>EcoFootprint - Hệ Thống Tính Toán Dấu Chân Carbon</title>
     <style>
-        /* Full screen */
+        /* Thừa hưởng bố cục Full-screen hiện đại */
         html, body {
             margin: 0;
             padding: 0;
             height: 100%;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #0e1117;
+            background-color: #0b0f17;
             color: #ffffff;
-            overflow: hidden; /* scroll */
+            overflow: hidden;
         }
 
-        /* bo cuc lưới */
         .app-wrapper {
             display: flex;
             flex-direction: column;
             height: 100vh;
         }
 
-        /* tieu đề */
         header {
-            background: #161b22;
-            padding: 10px 20px;
-            border-bottom: 1px solid #30363d;
+            background: #161a23;
+            padding: 12px 25px;
+            border-bottom: 1px solid #262c36;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -48,28 +46,27 @@
             margin: 0;
         }
 
-        /* Body chia làm 2 */
         .main-content {
             display: flex;
             flex: 1;
             overflow: hidden;
         }
 
-        /* trái: nhập liệu va nhiệm vụ (co thể cuộn màn nhỏ) */
+        /* Cột bên trái: Trượt nhập liệu sinh động phong cách FootprintCalc */
         .left-panel {
             flex: 1;
             padding: 20px 25px;
             overflow-y: auto;
-            border-right: 1px solid #30363d;
-            background: #0d1117;
+            border-right: 1px solid #262c36;
+            background: #0f141c;
         }
 
-        /* phải: kết quả va đồ thị  */
+        /* Cột bên phải: Thống kê & Đổi điểm kết quả */
         .right-panel {
             flex: 1.2;
             padding: 20px 25px;
             overflow-y: auto;
-            background: #161b22;
+            background: #161a23;
             display: flex;
             flex-direction: column;
             gap: 15px;
@@ -78,60 +75,94 @@
         h2 {
             color: #58a6ff;
             font-size: 16px;
-            border-bottom: 1px solid #30363d;
+            border-bottom: 1px solid #262c36;
             padding-bottom: 6px;
             margin-top: 0;
             margin-bottom: 15px;
         }
 
-        /* CSS cho scroll và form */
-        .form-group {
-            margin-bottom: 18px;
+        /* Ô nhập liệu có hình minh họa emoji động */
+        .card-input {
+            background: #1f2633;
+            border: 1px solid #2d3545;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            position: relative;
         }
 
-        label {
-            display: block;
-            margin-bottom: 6px;
+        .card-header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .card-title {
             font-size: 14px;
-            font-weight: 500;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .emoji-status {
+            font-size: 24px;
+            transition: transform 0.2s;
         }
 
         select, input[type="range"] {
             width: 100%;
             padding: 8px;
-            background: #21262d;
-            border: 1px solid #30363d;
+            background: #0f141c;
+            border: 1px solid #2d3545;
             border-radius: 6px;
             color: white;
             box-sizing: border-box;
         }
 
-        /* hiển thị kết quả cacbon */
-        .result-box {
-            background: #21262d;
+        /* Khối quy đổi cây xanh đặc trưng của FootprintCalc */
+        .tree-counter-box {
+            background: rgba(76, 175, 80, 0.15);
+            border: 1px solid #4caf50;
+            border-radius: 10px;
             padding: 15px;
-            border-radius: 8px;
             text-align: center;
-            border-left: 5px solid #4caf50;
+            margin-top: 5px;
         }
 
-        .metric {
-            font-size: 28px;
+        .tree-number {
+            font-size: 32px;
             font-weight: bold;
-            color: #4caf50;
+            color: #66bb6a;
             margin: 5px 0;
         }
 
-        /* biểu đồ phần trăm */
-        .progress-container {
-            background: #0d1117;
+        .result-box {
+            background: #1f2633;
             padding: 15px;
             border-radius: 8px;
-            border: 1px solid #30363d;
+            text-align: center;
+            border-left: 5px solid #2f81f7;
+        }
+
+        .metric {
+            font-size: 26px;
+            font-weight: bold;
+            color: #2f81f7;
+            margin: 5px 0;
+        }
+
+        /* Đồ thị tiến trình */
+        .progress-container {
+            background: #0f141c;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #262c36;
         }
 
         .progress-bar {
-            background: #30363d;
+            background: #2d3545;
             border-radius: 4px;
             overflow: hidden;
             margin-top: 4px;
@@ -150,65 +181,46 @@
             border: 1px solid #388bfd;
             padding: 12px 15px;
             border-radius: 8px;
-            line-height: 1.5;
             font-size: 14px;
+            line-height: 1.5;
         }
 
-        /* hệ thống game rank */
+        /* Giao diện trò chơi */
         .task-item {
             display: flex;
             align-items: center;
-            background: #21262d;
+            background: #1f2633;
             padding: 10px 12px;
             border-radius: 6px;
             margin-bottom: 8px;
-            border: 1px solid #30363d;
+            border: 1px solid #2d3545;
             cursor: pointer;
             font-size: 13.5px;
-            transition: background 0.2s;
-        }
-        
-        .task-item:hover {
-            background: #262c36;
         }
 
         .task-item input {
             margin-right: 10px;
             transform: scale(1.1);
-            cursor: pointer;
         }
 
         .rank-badge {
             display: inline-block;
-            padding: 8px 16px;
+            padding: 6px 14px;
             background: #6e7681;
             color: white;
             border-radius: 6px;
             font-weight: bold;
-            font-size: 16px;
-            margin-top: 8px;
-        }
-
-        /*công thức*/
-        .formula-box {
-            background: #0d1117;
-            border: 1px solid #30363d;
-            padding: 10px;
-            border-radius: 6px;
-            font-family: 'Courier New', Courier, monospace;
-            color: #ff7b72;
-            text-align: center;
-            font-size: 13px;
-            margin-bottom: 10px;
+            font-size: 15px;
+            margin-top: 5px;
         }
 
         footer {
-            background: #0d1117;
+            background: #0f141c;
             padding: 6px 20px;
             text-align: center;
             color: #8b949e;
             font-size: 11px;
-            border-top: 1px solid #30363d;
+            border-top: 1px solid #262c36;
         }
     </style>
 </head>
@@ -217,214 +229,95 @@
 <div class="app-wrapper">
     <header>
         <h1>🌿 EcoFootprint</h1>
+        <p class="subtitle">Ứng dụng số hóa mô phỏng dấu chân sinh thái & Trợ lý ảo môi trường trường THCS</p>
     </header>
 
     <div class="main-content">
         
         <div class="left-panel">
-            <h2>📊 1. Chỉ số tiêu thụ hàng tháng</h2>
+            <h2>📊 1. Khảo sát thói quen tiêu thụ</h2>
             
-            <div class="form-group">
-                <label>Loại nhiên liệu xe máy hay dùng:</label>
-                <select id="loaiXang" onchange="tinhToanToanBo()">
-                    <option value="2.3">Xăng thông thường (A95 / E5)</option>
-                    <option value="2.07">Xăng sinh học cao cấp E10 (Giảm 10% CO2)</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Số lít xăng tiêu thụ (lít/tháng): <span id="valXang" style="color:#58a6ff; font-weight:bold;">15</span></label>
+            <div class="card-input">
+                <div class="card-header-flex">
+                    <div class="card-title">🛵 Nhu cầu di chuyển bằng xe máy</div>
+                    <div id="emojiXang" class="emoji-status">🚲</div>
+                </div>
+                <div style="margin-bottom: 8px;">
+                    <select id="loaiXang" onchange="tinhToanToanBo()">
+                        <option value="2.3">Xăng thông thường (A95 / E5)</option>
+                        <option value="2.07">Xăng sinh học cao cấp E10 (Giảm 10% khí thải)</option>
+                    </select>
+                </div>
+                <label>Số lít xăng sử dụng / tháng: <b id="valXang" style="color:#58a6ff;">15</b> lít</label>
                 <input type="range" id="litXang" min="0" max="100" value="15" oninput="tinhToanToanBo()">
             </div>
 
-            <div class="form-group">
-                <label>Điện năng tiêu thụ (kWh / Chữ điện): <span id="valDien" style="color:#58a6ff; font-weight:bold;">80</span></label>
+            <div class="card-input">
+                <div class="card-header-flex">
+                    <div class="card-title">🔌 Tiêu thụ điện năng gia đình</div>
+                    <div id="emojiDien" class="emoji-status">💡</div>
+                </div>
+                <label>Số chữ điện (kWh) tiêu thụ / tháng: <b id="valDien" style="color:#58a6ff;">80</b> kWh</label>
                 <input type="range" id="soDien" min="0" max="500" value="80" oninput="tinhToanToanBo()">
             </div>
 
-            <div class="form-group">
-                <label>Khối lượng rác thải sinh hoạt (kg/tháng): <span id="valRac" style="color:#58a6ff; font-weight:bold;">10</span></label>
+            <div class="card-input">
+                <div class="card-header-flex">
+                    <div class="card-title">🗑️ Rác thải sinh hoạt thải ra</div>
+                    <div id="emojiRac" class="emoji-status">🍃</div>
+                </div>
+                <label>Khối lượng rác thải ra / tháng: <b id="valRac" style="color:#58a6ff;">10</b> kg</label>
                 <input type="range" id="kgRac" min="0" max="50" value="10" oninput="tinhToanToanBo()">
             </div>
 
-            <h2 style="margin-top: 25px;">🎯 2. Nhật ký hành động xanh & Đổi Rank</h2>
+            <h2 style="margin-top: 20px;">🎯 2. Thử thách sống xanh mỗi ngày</h2>
             <div class="task-item" onclick="toggleCheck('nv1')">
                 <input type="checkbox" id="nv1" onclick="event.stopPropagation(); tinhDiemRank();">
-                <div>🚲 Đi bộ hoặc đi xe đạp cho quãng đường ngắn dưới 2km (+20 điểm)</div>
+                <div>🚲 Đi bộ hoặc xe đạp cho quãng đường ngắn dưới 2km (+20 điểm)</div>
             </div>
             <div class="task-item" onclick="toggleCheck('nv2')">
                 <input type="checkbox" id="nv2" onclick="event.stopPropagation(); tinhDiemRank();">
-                <div>🔌 Tắt điều hòa khi ra ngoài, rút phích cắm thiết bị điện (+20 điểm)</div>
+                <div>🔌 Tắt toàn bộ thiết bị điện không dùng khi rời phòng (+20 điểm)</div>
             </div>
             <div class="task-item" onclick="toggleCheck('nv3')">
                 <input type="checkbox" id="nv3" onclick="event.stopPropagation(); tinhDiemRank();">
-                <div>🥤 Dùng bình nước cá nhân, hạn chế ly nhựa một lần (+20 điểm)</div>
+                <div>🥤 Sử dụng bình nước cá nhân để hạn chế ly nhựa (+20 điểm)</div>
             </div>
             <div class="task-item" onclick="toggleCheck('nv4')">
                 <input type="checkbox" id="nv4" onclick="event.stopPropagation(); tinhDiemRank();">
-                <div>🗑️ Phân loại rác hữu cơ và rác tái chế tại nhà (+20 điểm)</div>
+                <div>🗑️ Tự phân loại rác tái chế thành công tại nhà (+20 điểm)</div>
             </div>
 
-            <div style="text-align: center; margin-top: 15px; background: #161b22; padding: 12px; border-radius: 8px; border: 1px dashed #4caf50;">
-                <div style="font-size: 14px;">Điểm hành động tích lũy: <b id="txtDiem" style="color: #58a6ff;">0</b> / 80 điểm</div>
+            <div style="text-align: center; margin-top: 10px; background: #161a23; padding: 10px; border-radius: 8px; border: 1px dashed #4caf50;">
+                <div style="font-size: 13px;">Điểm hành động tích lũy: <b id="txtDiem" style="color: #58a6ff;">0</b> / 80 điểm</div>
                 <div id="badgeRank" class="rank-badge">🥚 Trứng Non Sống Xanh</div>
             </div>
         </div>
 
         <div class="right-panel">
-            <h2>📉 3. Kết quả phân tích nguồn phát thải</h2>
             
+            <h2>🌳 3. Chỉ số bù đắp sinh thái (Footprint Calc)</h2>
+            <div class="tree-counter-box">
+                <div style="font-size: 14px; font-weight: bold; color: #ffffff;">Số lượng cây xanh bạn cần trồng trong 1 năm để hấp thụ hết lượng CO2 này:</div>
+                <div id="treeCount" class="tree-number">0 Cây xanh</div>
+                <p style="font-size: 12px; color: #a5d6a7; margin: 0; line-height: 1.4;">
+                    *(Tính toán dựa trên cơ sở khoa học: Trung bình một cây xanh trưởng thành hấp thụ khoảng 22 kg CO2 trong một năm).*
+                </p>
+            </div>
+
+            <h2>📉 4. Phân tích dữ liệu phát thải khí nhà kính</h2>
             <div class="result-box">
-                <div style="font-size: 14px; color: #8b949e;">Tổng lượng phát thải khí nhà kính của gia đình bạn:</div>
+                <div style="font-size: 13px; color: #8b949e;">Tổng lượng phát thải của gia đình bạn:</div>
                 <div class="metric" id="tongCarbon">0.00 kg CO2 / tháng</div>
-                <div id="statusText" style="margin-top: 5px; font-weight: bold; font-size: 14px;"></div>
+                <div id="statusText" style="margin-top: 4px; font-weight: bold; font-size: 13.5px;"></div>
             </div>
 
             <div class="progress-container">
                 <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 2px;">
-                    <span>🛵 Nhiên liệu xe máy: <b id="ptXang" style="color: #4caf50;">0%</b></span>
+                    <span>🛵 Xe máy: <b id="ptXang" style="color: #4caf50;">0%</b></span>
                     <span id="txtXangKg" style="color: #8b949e;">0 kg CO2</span>
                 </div>
                 <div class="progress-bar"><div id="barXang" class="progress-fill"></div></div>
                 
                 <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 2px;">
-                    <span>🔌 Điện năng sinh hoạt: <b id="ptDien" style="color: #58a6ff;">0%</b></span>
-                    <span id="txtDienKg" style="color: #8b949e;">0 kg CO2</span>
-                </div>
-                <div class="progress-bar"><div id="barDien" class="progress-fill" style="background: #388bfd;"></div></div>
-                
-                <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 2px;">
-                    <span>🗑️ Rác thải sinh hoạt: <b id="ptRac" style="color: #56d364;">0%</b></span>
-                    <span id="txtRacKg" style="color: #8b949e;">0 kg CO2</span>
-                </div>
-                <div class="progress-bar"><div id="barRac" class="progress-fill" style="background: #56d364;"></div></div>
-                
-                <div id="compareBox" style="margin-top: 10px; font-size: 13px; color: #8b949e; border-top: 1px dashed #30363d; padding-top: 8px; text-align: center;"></div>
-            </div>
-
-            <h2>📖 4. Cơ sở dữ liệu khoa học toán học</h2>
-            <div class="formula-box">
-                E_total = (V_xăng × K_xăng) + (E_điện × K_điện) + (W_rác × K_rác)
-            </div>
-            <p style="font-size: 12px; color: #8b949e; margin: 0; line-height: 1.4;">
-                Hệ số phát thải chuẩn hóa tại Việt Nam năm 2026: K_xăng thường = 2.3 | K_xăng E10 = 2.07 | K_điện = 0.8 | K_rác = 0.5.
-            </p>
-
-            <h2>💡 5. Đề xuất giải pháp cốt lõi hành động</h2>
-            <div id="adviceBox" class="info-card"></div>
-        </div>
-
-    </div>
-
-    <footer>
-        By Tran Chi Chuong -- Deril Tran -- HGH.
-    </footer>
-</div>
-
-<script>
-// Logic xử lý tính toán số liệu khí thải động
-function tinhToanToanBo() {
-    let heSoXang = parseFloat(document.getElementById('loaiXang').value);
-    let litXang = parseFloat(document.getElementById('litXang').value);
-    let soDien = parseFloat(document.getElementById('soDien').value);
-    let kgRac = parseFloat(document.getElementById('kgRac').value);
-
-    document.getElementById('valXang').innerText = litXang;
-    document.getElementById('valDien').innerText = soDien;
-    document.getElementById('valRac').innerText = kgRac;
-
-    let carbonXang = litXang * heSoXang;
-    let carbonDien = soDien * 0.8;
-    let carbonRac = kgRac * 0.5;
-    let tong = carbonXang + carbonDien + carbonRac;
-
-    document.getElementById('tongCarbon').innerText = tong.toFixed(2) + " kg CO2 / tháng";
-
-    let status = document.getElementById('statusText');
-    if(tong < 60) {
-        status.innerText = "🌟 Tuyệt vời! Bạn đang duy trì lối sống rất Xanh.";
-        status.style.color = "#56d364";
-    } else if(tong <= 180) {
-        status.innerText = "⚠️ Mức trung bình! Vẫn có thể tối ưu hơn nữa.";
-        status.style.color = "#e3b341";
-    } else {
-        status.innerText = "🚨 Báo động! Mức phát thải quá cao, cần cắt giảm!";
-        status.style.color = "#f85149";
-    }
-
-    if(tong > 0) {
-        let pXang = (carbonXang / tong) * 100;
-        let pDien = (carbonDien / tong) * 100;
-        let pRac = (carbonRac / tong) * 100;
-
-        document.getElementById('ptXang').innerText = pXang.toFixed(1) + "%";
-        document.getElementById('barXang').style.width = pXang + "%";
-        document.getElementById('txtXangKg').innerText = carbonXang.toFixed(1) + " kg CO2";
-
-        document.getElementById('ptDien').innerText = pDien.toFixed(1) + "%";
-        document.getElementById('barDien').style.width = pDien + "%";
-        document.getElementById('txtDienKg').innerText = carbonDien.toFixed(1) + " kg CO2";
-
-        document.getElementById('ptRac').innerText = pRac.toFixed(1) + "%";
-        document.getElementById('barRac').style.width = pRac + "%";
-        document.getElementById('txtRacKg').innerText = carbonRac.toFixed(1) + " kg CO2";
-    }
-
-    let soSanhBox = document.getElementById('compareBox');
-    let mucChuan = 120;
-    if (tong < mucChuan) {
-        let phanTramThap = ((mucChuan - tong) / mucChuan * 100).toFixed(0);
-        soSanhBox.innerHTML = `📉 Lượng khí thải của bạn <b>thấp hơn ${phanTramThap}%</b> so với mức trung bình hộ học sinh.`;
-    } else {
-        let phanTramCao = ((tong - mucChuan) / mucChuan * 100).toFixed(0);
-        soSanhBox.innerHTML = `📈 Lượng khí thải của bạn <b>cao hơn ${phanTramCao}%</b> so với mức trung bình hộ học sinh.`;
-    }
-
-    let advice = document.getElementById('adviceBox');
-    if(carbonXang > carbonDien && carbonXang > carbonRac) {
-        advice.innerHTML = "🚲 <b>Đi lại:</b> Ô nhiễm từ xăng xe đang lớn nhất. Nên tăng cường đi bộ, đi xe đạp hoặc đổi sang dòng <b>Xăng sinh học E10</b> để bớt khí thải độc hại.";
-    } else if(carbonDien > carbonXang && carbonDien > carbonRac) {
-        advice.innerHTML = "🔌 <b>Điện năng:</b> Tiêu thụ điện đang chiếm ưu thế. Tập thói quen tắt đèn quạt khi ra khỏi phòng và đặt điều hòa trên 26°C nha bồ.";
-    } else {
-        advice.innerHTML = "🛍️ <b>Tiêu dùng:</b> Lượng rác thải sinh hoạt khá cao. Hạn chế bao nilon và thực hiện phân loại rác tái chế ngay tại phòng bếp nhé!";
-    }
-}
-
-// Logic tính điểm Rank (Gamification)
-function tinhDiemRank() {
-    let diem = 0;
-    if(document.getElementById('nv1').checked) diem += 20;
-    if(document.getElementById('nv2').checked) diem += 20;
-    if(document.getElementById('nv3').checked) diem += 20;
-    if(document.getElementById('nv4').checked) diem += 20;
-
-    document.getElementById('txtDiem').innerText = diem;
-
-    let badge = document.getElementById('badgeRank');
-    if(diem === 0) {
-        badge.innerText = "🥚 Trứng Non Sống Xanh";
-        badge.style.background = "#6e7681";
-    } else if(diem <= 40) {
-        badge.innerText = "🌱 Chiến Binh Tập Sự";
-        badge.style.background = "#1f6feb";
-    } else if(diem <= 60) {
-        badge.innerText = "🌳 Trưởng Thành Vì Môi Trường";
-        badge.style.background = "#b652da";
-    } else {
-        badge.innerText = "👑 HUYỀN THOẠI BẢO VỆ MÔI TRƯỜNG!";
-        badge.style.background = "#238636";
-    }
-}
-
-function toggleCheck(id) {
-    let cb = document.getElementById(id);
-    cb.checked = !cb.checked;
-    tinhDiemRank();
-}
-
-// Chạy khởi tạo ứng dụng
-tinhToanToanBo();
-tinhDiemRank();
-</script>
-</body>
-</html>
+                    <span>🔌 Điện gia đình: <b id="ptDien" style="color: #58a6ff;">0%</b>
