@@ -94,10 +94,10 @@ function tinhToanToanBo() {
     let mucChuan = 180;
     if (tongThang < mucChuan) {
         let phanTramThap = ((mucChuan - tongThang) / mucChuan * 100).toFixed(0);
-        soSanhBox.innerHTML = `📉 Chỉ số phát thải của bạn <b>thấp hơn ${phanTramThap}%</b> so với trung bình tiêu chuẩn.`;
+        soSanhBox.innerHTML = `📉 Chỉ số phát thải của bạn <b>thấp hơn ${phanTramThap}%</b> so với trung bình quốc gia.`;
     } else {
         let phanTramCao = ((tongThang - mucChuan) / mucChuan * 100).toFixed(0);
-        soSanhBox.innerHTML = `📈 Chỉ số phát thải của bạn <b>cao hơn ${phanTramCao}%</b> so với trung bình tiêu chuẩn.`;
+        soSanhBox.innerHTML = `📈 Chỉ số phát thải của bạn <b>cao hơn ${phanTramCao}%</b> so với trung bình quốc gia.`;
     }
 
     // 9. Đề xuất chiến lược hành động thông minh
@@ -144,7 +144,7 @@ function tinhDiemRank() {
 function toggleCheck(id) {
     let cb = document.getElementById(id);
     cb.checked = !cb.checked;
-    tiemDiemRank();
+    tinhDiemRank();
 }
 
 // Kích hoạt tính toán ngay khi trang web vừa mở lên
