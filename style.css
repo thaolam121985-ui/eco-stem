@@ -6,10 +6,10 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-/* Khóa chết màn hình không cho cuộn tổng thể */
+/* Nền tổng thể màu tối huyền bí */
 body {
-    background: #f4f7f6;
-    color: #1e293b;
+    background: #0b0f19;
+    color: #f1f5f9;
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -28,9 +28,10 @@ body {
 }
 
 .calculator-container {
-    background: #ffffff;
+    background: #111827; /* Màu xám đen của khung chứa chính */
     border-radius: 24px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    border: 1px solid #1f2937;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     padding: 25px;
     height: 100%;
     display: flex;
@@ -38,15 +39,16 @@ body {
     gap: 20px;
 }
 
+/* Tiêu đề chữ sáng nổi bật */
 .calc-header h1 {
     font-size: 24px;
     font-weight: 800;
-    color: #0f172a;
+    color: #ffffff;
 }
 
 .calc-header p {
     font-size: 13px;
-    color: #64748b;
+    color: #9ca3af;
 }
 
 /* Lưới chia 2 cột */
@@ -54,25 +56,30 @@ body {
     display: flex;
     gap: 25px;
     flex: 1;
-    overflow: hidden; /* Không cho tràn ra ngoài flexbox */
+    overflow: hidden; 
 }
 
-/* Cột nhập liệu bên trái: Tự tạo thanh cuộn riêng khi có tận 5 phần */
+/* Cột nhập liệu bên trái: Con lăn nội bộ hoạt động ở đây */
 .input-section {
     flex: 1.2;
-    overflow-y: auto; /* Tự xuất hiện thanh cuộn dọc riêng ở đây */
+    overflow-y: auto; 
     padding-right: 10px;
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-/* Thẻ bọc bo góc kiểu FootprintCalc */
+/* Thẻ nhập liệu tông màu xám tối */
 .input-card {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
+    background: #1f2937;
+    border: 1px solid #374151;
     border-radius: 16px;
     padding: 18px;
+    transition: border-color 0.2s;
+}
+
+.input-card:hover {
+    border-color: #4b5563;
 }
 
 .card-top {
@@ -91,11 +98,12 @@ body {
 .card-icon-title h3 {
     font-size: 15px;
     font-weight: 700;
-    color: #1e293b;
+    color: #f3f4f6;
 }
 
+/* Badge trạng thái màu tối */
 .status-badge {
-    background: #f1f5f9;
+    background: #374151;
     padding: 3px 8px;
     border-radius: 20px;
     font-size: 13px;
@@ -113,19 +121,23 @@ body {
     display: block;
     font-size: 11px;
     font-weight: 700;
-    color: #64748b;
+    color: #9ca3af;
     margin-bottom: 4px;
     text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
+/* Ô select bo tròn màu tối */
 select {
     width: 100%;
     padding: 9px 12px;
     border-radius: 10px;
-    border: 1px solid #cbd5e1;
-    background-color: #f8fafc;
+    border: 1px solid #4b5563;
+    background-color: #111827;
+    color: #f3f4f6;
     font-size: 13px;
     outline: none;
+    cursor: pointer;
 }
 
 .label-val {
@@ -135,111 +147,23 @@ select {
     margin-bottom: 4px;
 }
 
+/* Con số hiển thị màu xanh Neon phát sáng cực đẹp */
 .counter-val {
     font-size: 13px;
     font-weight: 700;
     color: #10b981;
+    text-shadow: 0 0 8px rgba(16, 185, 129, 0.3);
 }
 
+/* Thanh kéo Slider */
 input[type="range"] {
     width: 100%;
     height: 5px;
+    background: #374151;
+    border-radius: 5px;
+    outline: none;
     accent-color: #10b981;
     cursor: pointer;
 }
 
-/* Cột kết quả đen huyền bí bên phải */
-.summary-section {
-    flex: 0.8;
-    background: #0f172a;
-    border-radius: 20px;
-    padding: 25px;
-    color: #ffffff;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.score-display {
-    text-align: center;
-}
-
-.score-title {
-    font-size: 11px;
-    font-weight: 700;
-    color: #94a3b8;
-    letter-spacing: 0.5px;
-}
-
-.score-value {
-    margin: 15px 0;
-    display: flex;
-    flex-direction: column;
-}
-
-#tongCarbon {
-    font-size: 52px;
-    font-weight: 800;
-    color: #10b981;
-}
-
-.score-value .unit {
-    font-size: 13px;
-    color: #94a3b8;
-}
-
-.progress-bar-wrapper {
-    width: 100%;
-    height: 7px;
-    background: #334155;
-    border-radius: 10px;
-    margin-top: 10px;
-    overflow: hidden;
-}
-
-.progress-bar-fill {
-    height: 100%;
-    background: #10b981;
-    border-radius: 10px;
-    transition: width 0.3s ease;
-}
-
-.feedback-box {
-    background: #1e293b;
-    border-radius: 12px;
-    padding: 14px;
-    border-left: 4px solid #10b981;
-}
-
-.feedback-box h4 {
-    font-size: 12px;
-    color: #94a3b8;
-    margin-bottom: 3px;
-}
-
-#loiKhuyen {
-    font-size: 13px;
-    line-height: 1.4;
-    color: #f1f5f9;
-}
-
-.btn-share {
-    width: 100%;
-    background: #10b981;
-    color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-/* Custom thanh cuộn của cột nhập liệu nhìn cho mảnh và đẹp */
-.input-section::-webkit-scrollbar {
-    width: 5px;
-}
-.input-section::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
-    border-radius: 10px;
-}
+/* Cột kết quả đen đậm đà bên
