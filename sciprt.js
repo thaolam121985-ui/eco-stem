@@ -1,102 +1,121 @@
-// Hàm xử lý tính toán số liệu và cập nhật giao diện emoji động
 function tinhToanToanBo() {
+    // 1. Lấy dữ liệu đầu vào từ giao diện mới
     let heSoXang = parseFloat(document.getElementById('loaiXang').value);
     let litXang = parseFloat(document.getElementById('litXang').value);
     let soDien = parseFloat(document.getElementById('soDien').value);
     let kgRac = parseFloat(document.getElementById('kgRac').value);
+    let khoiNuoc = parseFloat(document.getElementById('khoiNuoc').value);
 
-    // Cập nhật giá trị hiển thị chữ cạnh thanh trượt
+    // 2. Cập nhật con số hiển thị ngay cạnh thanh kéo slider
     document.getElementById('valXang').innerText = litXang;
     document.getElementById('valDien').innerText = soDien;
     document.getElementById('valRac').innerText = kgRac;
+    document.getElementById('valNuoc').innerText = khoiNuoc;
 
-    // Thay đổi emoji động theo mức tiêu thụ
+    // 3. Xử lý thay đổi Emoji trạng thái động
     let emojiXang = document.getElementById('emojiXang');
-    if (litXang === 0) { emojiXang.innerText = "🚲"; }
-    else if (litXang <= 20) { emojiXang.innerText = "🛵"; }
-    else { emojiXang.innerText = "🚗💨"; }
+    if (litXang === 0) emojiXang.innerText = "🚲";
+    else if (litXang <= 20) emojiXang.innerText = "🛵";
+    else emojiXang.innerText = "🚗💨";
 
     let emojiDien = document.getElementById('emojiDien');
-    if (soDien <= 50) { emojiDien.innerText = "🌱"; }
-    else if (soDien <= 200) { emojiDien.innerText = "💡"; }
-    else { emojiDien.innerText = "⚡🔥"; }
+    if (soDien <= 80) emojiDien.innerText = "🌱";
+    else if (soDien <= 200) emojiDien.innerText = "💡";
+    else emojiDien.innerText = "⚡🔥";
 
     let emojiRac = document.getElementById('emojiRac');
-    if (kgRac <= 5) { emojiRac.innerText = "🍃"; }
-    else if (kgRac <= 20) { emojiRac.innerText = "🗑️"; }
-    else { emojiRac.innerText = "⚠️🏭"; }
+    if (kgRac <= 5) emojiRac.innerText = "🍃";
+    else if (kgRac <= 15) emojiRac.innerText = "🗑️";
+    else emojiRac.innerText = "⚠️🏭";
 
-    // Tính toán lượng Carbon sinh ra (kg CO2 / tháng)
+    let emojiNuoc = document.getElementById('emojiNuoc');
+    if (khoiNuoc <= 10) emojiNuoc.innerText = "💧";
+    else if (khoiNuoc <= 25) emojiNuoc.innerText = "🚰";
+    else emojiNuoc.innerText = "🌊⚠️";
+
+    // 4. Công thức toán học tính lượng phát thải CO2 hàng tháng
     let carbonXang = litXang * heSoXang;
-    let carbonDien = soDien * 0.8;
-    let carbonRac = kgRac * 0.5;
-    let tongThang = carbonXang + carbonDien + carbonRac;
+    let carbonDien = soDien * 0.8; 
+    let carbonRac = (kgRac * 4) * 0.5; // Quy đổi rác tuần thành rác tháng rồi nhân hệ số
+    let carbonNuoc = khoiNuoc * 0.34;  // Hệ số phát thải của nước sạch thông thường
+    
+    let tongThang = carbonXang + carbonDien + carbonRac + carbonNuoc;
     let tongNam = tongThang * 12;
 
+    // Hiển thị tổng số Carbon
     document.getElementById('tongCarbon').innerText = tongThang.toFixed(2) + " kg CO₂ / tháng";
 
-    // Quy đổi ra số cây xanh cần trồng trong 1 năm
+    // 5. Tính số cây xanh cần bù đắp trong 1 năm
     let soCayCanTrong = Math.ceil(tongNam / 22);
     document.getElementById('treeCount').innerText = soCayCanTrong + " Cây xanh / năm";
 
-    // Phân loại mức độ ô nhiễm và cập nhật badge
+    // 6. Phân loại mức độ thân thiện môi trường
     let status = document.getElementById('statusText');
-    if(tongThang < 60) {
-        status.innerText = "🌟 Tuyệt vời! Dấu chân sinh thái rất nhỏ.";
-        status.style.background = "rgba(86, 211, 100, 0.15)";
+    if(tongThang < 100) {
+        status.innerText = "🌱 Mức siêu xanh";
+        status.style.background = "rgba(86, 211, 100, 0.12)";
         status.style.color = "#56d364";
-    } else if(tongThang <= 180) {
-        status.innerText = "⚠️ Mức trung bình! Hãy tích cực sống xanh.";
-        status.style.background = "rgba(240, 140, 0, 0.15)";
+    } else if(tongThang <= 250) {
+        status.innerText = "⚠️ Mức trung bình! Hãy chú ý tiết kiệm năng lượng.";
+        status.style.background = "rgba(240, 140, 0, 0.12)";
         status.style.color = "#e3b341";
     } else {
-        status.innerText = "🚨 Báo động! Lượng khí thải vượt ngưỡng an toàn!";
-        status.style.background = "rgba(248, 81, 73, 0.15)";
+        status.innerText = "🚨 Mức báo động! Khí thải quá cao.";
+        status.style.background = "rgba(248, 81, 73, 0.12)";
         status.style.color = "#f85149";
     }
 
-    // Cập nhật biểu đồ phần trăm phân bổ chạy động
+    // 7. Cập nhật tỷ lệ % và chiều rộng thanh Progress Bar chạy động
     if(tongThang > 0) {
         let pXang = (carbonXang / tongThang) * 100;
         let pDien = (carbonDien / tongThang) * 100;
         let pRac = (carbonRac / tongThang) * 100;
+        let pNuoc = (carbonNuoc / tongThang) * 100;
 
-        document.getElementById('ptXang').innerText = pXang.toFixed(1) + "%";
+        document.getElementById('ptXang').innerText = pXang.toFixed(0) + "%";
         document.getElementById('barXang').style.width = pXang + "%";
         document.getElementById('txtXangKg').innerText = carbonXang.toFixed(1) + " kg CO₂";
 
-        document.getElementById('ptDien').innerText = pDien.toFixed(1) + "%";
+        document.getElementById('ptDien').innerText = pDien.toFixed(0) + "%";
         document.getElementById('barDien').style.width = pDien + "%";
         document.getElementById('txtDienKg').innerText = carbonDien.toFixed(1) + " kg CO₂";
 
-        document.getElementById('ptRac').innerText = pRac.toFixed(1) + "%";
+        document.getElementById('ptRac').innerText = pRac.toFixed(0) + "%";
         document.getElementById('barRac').style.width = pRac + "%";
         document.getElementById('txtRacKg').innerText = carbonRac.toFixed(1) + " kg CO₂";
+
+        document.getElementById('ptNuoc').innerText = pNuoc.toFixed(0) + "%";
+        document.getElementById('barNuoc').style.width = pNuoc + "%";
+        document.getElementById('txtNuocKg').innerText = carbonNuoc.toFixed(1) + " kg CO₂";
     }
 
-    // So sánh với mức chuẩn trung bình học sinh
+    // 8. So sánh với mức chuẩn trung bình (Giả định mức chuẩn xanh là 180kg)
     let soSanhBox = document.getElementById('compareBox');
-    let mucChuan = 120;
+    let mucChuan = 180;
     if (tongThang < mucChuan) {
         let phanTramThap = ((mucChuan - tongThang) / mucChuan * 100).toFixed(0);
-        soSanhBox.innerHTML = `📉 Chỉ số phát thải của bạn <b>thấp hơn ${phanTramThap}%</b> so với trung bình quốc gia.`;
+        soSanhBox.innerHTML = `📉 Chỉ số phát thải của bạn <b>thấp hơn ${phanTramThap}%</b> so với trung bình tiêu chuẩn.`;
     } else {
         let phanTramCao = ((tongThang - mucChuan) / mucChuan * 100).toFixed(0);
-        soSanhBox.innerHTML = `📈 Chỉ số phát thải của bạn <b>cao hơn ${phanTramCao}%</b> so với trung bình quốc gia.`;
+        soSanhBox.innerHTML = `📈 Chỉ số phát thải của bạn <b>cao hơn ${phanTramCao}%</b> so với trung bình tiêu chuẩn.`;
     }
 
-    // Đề xuất giải pháp
+    // 9. Đề xuất chiến lược hành động thông minh
     let advice = document.getElementById('adviceBox');
-    if(carbonXang > carbonDien && carbonXang > carbonRac) {
-        advice.innerHTML = "🚲 <b>Hành động:</b> Khí thải từ xe máy đang lớn nhất. Nên ưu tiên đi bộ, đi xe đạp hoặc khuyến khích gia đình đổi sang <b>Xăng sinh học E10</b> để bớt khí thải độc hại.";
-    } else if(carbonDien > carbonXang && carbonDien > carbonRac) {
-        advice.innerHTML = "🔌 <b>Hành động:</b> Tiêu thụ điện năng đang dẫn đầu nguồn ô nhiễm. Tập thói quen rút phích cắm các thiết bị điện khi không dùng và đặt điều hòa trên 26°C nha bồ.";
+    let maxCarbon = Math.max(carbonXang, carbonDien, carbonRac, carbonNuoc);
+    
+    if(maxCarbon === carbonXang) {
+        advice.innerHTML = "💡 <b>Chiến lược hành động:</b> Khí thải từ việc di chuyển xe máy chiếm tỷ trọng lớn nhất. Gia đình bồ nên cân nhắc chuyển sang đi chung xe, sử dụng xe đạp điện hoặc đổ dòng <b>Xăng sinh học cao cấp E10</b> để giảm bớt ô nhiễm nhé.";
+    } else if(maxCarbon === carbonDien) {
+        advice.innerHTML = "💡 <b>Chiến lược hành động:</b> Thiết bị điện trong nhà đang tiêu thụ lượng điện lớn. Hãy rèn luyện thói quen tắt bớt đèn, rút hẳn phích cắm khi không dùng và đặt nhiệt độ máy lạnh từ 26°C trở lên.";
+    } else if(maxCarbon === carbonRac) {
+        advice.innerHTML = "💡 <b>Chiến lược hành động:</b> Rác thải sinh hoạt nhà bồ đang sinh ra khí Mê-tan rất cao. Hãy hạn chế sử dụng túi nilon, hộp nhựa một lần và tích cực thực hiện phân loại rác tái chế ngay tại nguồn.";
     } else {
-        advice.innerHTML = "🛍️ <b>Hành động:</b> Lượng rác thải sinh hoạt phát sinh khá cao. Hãy hạn chế dùng đồ nhựa một lần và thực hiện phân loại rác tái chế ngay tại nhà nhé!";
+        advice.innerHTML = "💡 <b>Chiến lược hành động:</b> Lượng nước tiêu thụ hàng tháng đang chiếm ưu thế phát thải. Hãy kiểm tra lại hệ thống đường ống để tránh rò rỉ và tái sử dụng nước rửa rau để tưới cây nhé!";
     }
 }
 
-// Logic tính điểm Rank trò chơi
+// Hệ thống tính điểm Thử thách sống xanh
 function tinhDiemRank() {
     let diem = 0;
     if(document.getElementById('nv1').checked) diem += 20;
@@ -125,9 +144,11 @@ function tinhDiemRank() {
 function toggleCheck(id) {
     let cb = document.getElementById(id);
     cb.checked = !cb.checked;
-    tinhDiemRank();
+    tiemDiemRank();
 }
 
-// Chạy khởi tạo ứng dụng khi load trang web
-tinhToanToanBo();
-tinhDiemRank();
+// Kích hoạt tính toán ngay khi trang web vừa mở lên
+window.onload = function() {
+    tinhToanToanBo();
+    tinhDiemRank();
+};

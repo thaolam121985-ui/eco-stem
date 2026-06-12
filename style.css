@@ -288,3 +288,7 @@ footer {
     font-size: 11px;
     border-top: 1px solid #262c36;
 }
+.fill-orange { background: #ff9800; }
+.fill-blue   { background: #388bfd; }
+.fill-green  { background: #56d364; }
+.fill-cyan   { background: #00bcd4; } /* Thêm dòng này để tạo màu thanh tiến trình nước */

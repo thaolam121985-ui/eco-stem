@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EcoFootprint - Hệ Thống Tính Toán Dấu Chân Carbon</title>
-    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -22,7 +21,7 @@
             <div class="card-input">
                 <div class="card-header-flex">
                     <div class="card-title">🛵 Nhu cầu di chuyển bằng xe máy</div>
-                    <div id="emojiXang" class="emoji-status">🚲</div>
+                    <div id="emojiXang" class="emoji-status">🛵</div>
                 </div>
                 <div style="margin-bottom: 8px;">
                     <select id="loaiXang" onchange="tinhToanToanBo()">
@@ -39,17 +38,26 @@
                     <div class="card-title">🔌 Tiêu thụ điện năng gia đình</div>
                     <div id="emojiDien" class="emoji-status">💡</div>
                 </div>
-                <label>Số chữ điện (kWh) tiêu thụ / tháng: <b id="valDien" style="color:#58a6ff;">80</b> kWh</label>
-                <input type="range" id="soDien" min="0" max="500" value="80" oninput="tinhToanToanBo()">
+                <label>Số chữ điện (kWh) tiêu thụ / tháng: <b id="valDien" style="color:#58a6ff;">150</b> kWh</label>
+                <input type="range" id="soDien" min="0" max="500" value="150" oninput="tinhToanToanBo()">
             </div>
 
             <div class="card-input">
                 <div class="card-header-flex">
                     <div class="card-title">🗑️ Rác thải sinh hoạt thải ra</div>
-                    <div id="emojiRac" class="emoji-status">🍃</div>
+                    <div id="emojiRac" class="emoji-status">🗑️</div>
                 </div>
-                <label>Khối lượng rác thải ra / tháng: <b id="valRac" style="color:#58a6ff;">10</b> kg</label>
-                <input type="range" id="kgRac" min="0" max="50" value="10" oninput="tinhToanToanBo()">
+                <label>Khối lượng rác thải ra / tuần: <b id="valRac" style="color:#58a6ff;">5</b> kg</label>
+                <input type="range" id="kgRac" min="0" max="50" value="5" oninput="tinhToanToanBo()">
+            </div>
+
+            <div class="card-input">
+                <div class="card-header-flex">
+                    <div class="card-title">💧 Tiêu thụ nước sạch</div>
+                    <div id="emojiNuoc" class="emoji-status">💧</div>
+                </div>
+                <label>Số khối nước (m³) tiêu thụ / tháng: <b id="valNuoc" style="color:#58a6ff;">15</b> m³</label>
+                <input type="range" id="khoiNuoc" min="0" max="100" value="15" oninput="tinhToanToanBo()">
             </div>
 
             <h2 style="margin-top: 20px;">🎯 2. Thử thách sống xanh mỗi ngày</h2>
@@ -94,11 +102,11 @@
             </div>
 
             <div class="progress-container">
-                <div style="font-size: 13.5px; font-weight: bold; color: #58a6ff; margin-bottom: 2px;">📊 Tỷ lệ phân bổ nguồn ô nhiễm:</div>
+                <div style="font-size: 13.5px; font-weight: bold; color: #58a6ff; margin-bottom: 5px;">📊 Tỷ lệ phân bổ nguồn ô nhiễm:</div>
                 
                 <div>
                     <div class="progress-labels">
-                        <span>🛵 Di chuyển xe máy: <b id="ptXang" style="color: #ff9800;">0%</b></span>
+                        <span> 🛵 Di chuyển xe máy: <b id="ptXang">0%</b></span>
                         <span id="txtXangKg" class="kg-sub">0 kg CO₂</span>
                     </div>
                     <div class="progress-bar"><div id="barXang" class="progress-fill fill-orange"></div></div>
@@ -106,7 +114,7 @@
                 
                 <div>
                     <div class="progress-labels">
-                        <span>🔌 Điện năng gia đình: <b id="ptDien" style="color: #388bfd;">0%</b></span>
+                        <span>🔌 Điện năng gia đình: <b id="ptDien">0%</b></span>
                         <span id="txtDienKg" class="kg-sub">0 kg CO₂</span>
                     </div>
                     <div class="progress-bar"><div id="barDien" class="progress-fill fill-blue"></div></div>
@@ -114,17 +122,25 @@
                 
                 <div>
                     <div class="progress-labels">
-                        <span>🗑️ Rác thải sinh hoạt: <b id="ptRac" style="color: #56d364;">0%</b></span>
+                        <span>🗑️ Rác thải sinh hoạt: <b id="ptRac">0%</b></span>
                         <span id="txtRacKg" class="kg-sub">0 kg CO₂</span>
                     </div>
                     <div class="progress-bar"><div id="barRac" class="progress-fill fill-green"></div></div>
+                </div>
+
+                <div>
+                    <div class="progress-labels">
+                        <span>💧 Tiêu thụ nước sạch: <b id="ptNuoc">0%</b></span>
+                        <span id="txtNuocKg" class="kg-sub">0 kg CO₂</span>
+                    </div>
+                    <div class="progress-bar"><div id="barNuoc" class="progress-fill fill-cyan"></div></div>
                 </div>
                 
                 <div id="compareBox" style="margin-top: 4px; font-size: 12.5px; color: #8b949e; border-top: 1px dashed #2d3545; padding-top: 8px; text-align: center;"></div>
             </div>
 
             <h2>💡 4. Chiến lược hành động đề xuất</h2>
-            <div id="adviceBox" class="info-card"></div>
+            <div id="adviceBox" class="info-card">Đang phân tích thói quen tiêu thụ của bạn...</div>
         </div>
     </div>
 
