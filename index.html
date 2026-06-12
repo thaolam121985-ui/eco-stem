@@ -3,74 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoFootprint - Hệ Thống Tính Toán Dấu Chân Carbon</title>
+    <title>EcoFootprint - Carbon Calculator</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="app-container">
-        <div class="left-panel">
-            <header>
-                <h1>🌍 EcoFootprint</h1>
-                <p class="subtitle">Tính toán và giảm thiểu dấu chân Carbon của bạn</p>
+    <div class="main-wrapper">
+        <div class="calculator-container">
+            
+            <header class="calc-header">
+                <h1>🌍 EcoFootprint Calculator</h1>
+                <p>Hệ thống tính toán dấu chân Carbon - Dự án Eco STEM</p>
             </header>
 
-            <div class="input-scroll-area">
-                <div class="card-input">
-                    <div class="card-header">
-                        <span class="card-title">🛵 Di chuyển bằng xe máy</span>
-                        <span id="emojiXang" class="emoji-status">🍃</span>
+            <div class="calc-grid">
+                <div class="input-section">
+                    
+                    <div class="input-card">
+                        <div class="card-top">
+                            <div class="card-icon-title">
+                                <span class="icon">🛵</span>
+                                <h3>Di chuyển bằng xe máy</h3>
+                            </div>
+                            <span id="emojiXang" class="status-badge">🍃</span>
+                        </div>
+                        <div class="control-group">
+                            <label for="loaiXang">Loại nhiên liệu</label>
+                            <select id="loaiXang" onchange="tinhToanToanBo()">
+                                <option value="2.3">Xăng thông thường (A95 / E5)</option>
+                                <option value="2.07">Xăng sinh học E10 (Giảm 10% thải)</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <div class="label-val">
+                                <label>Số lít xăng / tháng</label>
+                                <span class="counter-val"><b id="valXang">15</b> lít</span>
+                            </div>
+                            <input type="range" id="litXang" min="0" max="100" value="15" oninput="tinhToanToanBo()">
+                        </div>
                     </div>
-                    <select id="loaiXang" onchange="tinhToanToanBo()">
-                        <option value="2.3">Xăng thông thường (A95 / E5)</option>
-                        <option value="2.07">Xăng sinh học E10 (Giảm 10% thải)</option>
-                    </select>
-                    <div class="range-group">
-                        <label>Số lít xăng / tháng: <b id="valXang">15</b> lít</label>
-                        <input type="range" id="litXang" min="0" max="100" value="15" oninput="tinhToanToanBo()">
+
+                    <div class="input-card">
+                        <div class="card-top">
+                            <div class="card-icon-title">
+                                <span class="icon">⚡</span>
+                                <h3>Tiêu thụ điện gia đình</h3>
+                            </div>
+                            <span id="emojiDien" class="status-badge">🍃</span>
+                        </div>
+                        <div class="control-group">
+                            <div class="label-val">
+                                <label>Số điện tiêu thụ (kWh) / tháng</label>
+                                <span class="counter-val"><b id="valDien">150</b> kWh</span>
+                            </div>
+                            <input type="range" id="kwhDien" min="0" max="1000" value="150" oninput="tinhToanToanBo()">
+                        </div>
                     </div>
+
+                    <div class="input-card">
+                        <div class="card-top">
+                            <div class="card-icon-title">
+                                <span class="icon">🗑️</span>
+                                <h3>Rác thải sinh hoạt</h3>
+                            </div>
+                            <span id="emojiRac" class="status-badge">🍃</span>
+                        </div>
+                        <div class="control-group">
+                            <div class="label-val">
+                                <label>Khối lượng rác / tuần</label>
+                                <span class="counter-val"><b id="valRac">5</b> kg</span>
+                            </div>
+                            <input type="range" id="kgRac" min="0" max="30" value="5" oninput="tinhToanToanBo()">
+                        </div>
+                    </div>
+
+                    <div class="input-card">
+                        <div class="card-top">
+                            <div class="card-icon-title">
+                                <span class="icon">💧</span>
+                                <h3>Tiêu thụ nước sạch</h3>
+                            </div>
+                            <span id="emojiNuoc" class="status-badge">🍃</span>
+                        </div>
+                        <div class="control-group">
+                            <div class="label-val">
+                                <label>Số khối nước ($m^3$) / tháng</label>
+                                <span class="counter-val"><b id="valNuoc">15</b> $m^3$</span>
+                            </div>
+                            <input type="range" id="khoiNuoc" min="0" max="100" value="15" oninput="tinhToanToanBo()">
+                        </div>
+                    </div>
+
+                    <div class="input-card">
+                        <div class="card-top">
+                            <div class="card-icon-title">
+                                <span class="icon">🔥</span>
+                                <h3>Sử dụng Gas nấu ăn</h3>
+                            </div>
+                            <span id="emojiGas" class="status-badge">🍃</span>
+                        </div>
+                        <div class="control-group">
+                            <div class="label-val">
+                                <label>Số kg Gas bình / tháng</label>
+                                <span class="counter-val"><b id="valGas">12</b> kg</span>
+                            </div>
+                            <input type="range" id="kgGas" min="0" max="50" value="12" oninput="tinhToanToanBo()">
+                        </div>
+                    </div>
+
                 </div>
 
-                <div class="card-input">
-                    <div class="card-header">
-                        <span class="card-title">⚡ Tiêu thụ điện gia đình</span>
-                        <span id="emojiDien" class="emoji-status">🍃</span>
+                <div class="summary-section">
+                    <div class="score-display">
+                        <span class="score-title">DẤU CHÂN CARBON CỦA BẠN</span>
+                        <div class="score-value">
+                            <span id="tongCarbon">0.00</span>
+                            <span class="unit">kg CO₂ / tháng</span>
+                        </div>
+                        <div class="progress-bar-wrapper">
+                            <div class="progress-bar-fill" id="progressBar" style="width: 0%;"></div>
+                        </div>
                     </div>
-                    <div class="range-group">
-                        <label>Số chữ điện (kWh) / tháng: <b id="valDien">150</b> kWh</label>
-                        <input type="range" id="kwhDien" min="0" max="1000" value="150" oninput="tinhToanToanBo()">
-                    </div>
-                </div>
 
-                <div class="card-input">
-                    <div class="card-header">
-                        <span class="card-title">🗑️ Rác thải sinh hoạt</span>
-                        <span id="emojiRac" class="emoji-status">🍃</span>
+                    <div class="feedback-box">
+                        <h4>📢 Đánh giá hệ thống:</h4>
+                        <p id="loiKhuyen">Đang phân tích các chỉ số tiêu thụ...</p>
                     </div>
-                    <div class="range-group">
-                        <label>Khối lượng rác / tuần: <b id="valRac">5</b> kg</label>
-                        <input type="range" id="kgRac" min="0" max="30" value="5" oninput="tinhToanToanBo()">
+
+                    <div class="action-box">
+                        <button class="btn-share" onclick="alert('Hệ thống đã lưu dữ liệu khảo sát thành công!')">🎯 Lưu kết quả khảo sát</button>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="right-panel">
-            <div class="result-box">
-                <h2>Tổng lượng phát thải của bạn</h2>
-                <div class="result-number"><span id="tongCarbon">0.00</span> <small>kg CO₂/tháng</small></div>
-                <p id="loiKhuyen" class="advice-text">Đang tính toán dữ liệu...</p>
-            </div>
-
-            <div class="info-box">
-                <h3>💡 Bạn có biết?</h3>
-                <p>Thay đổi nhỏ trong lối sống hàng ngày có thể tạo ra tác động cực kỳ to lớn đối với hành tinh:</p>
-                <ul class="info-list">
-                    <li>🥦 <b>Giảm ăn thịt 1 ngày/tuần:</b> Giảm 0.5 tấn CO₂/năm.</li>
-                    <li>💡 <b>Dùng bóng đèn LED:</b> Tiết kiệm 0.5 tấn CO₂/năm & giảm tiền điện.</li>
-                    <li>🚴 <b>Đi xe đạp/đi bộ đi học:</b> Cắt giảm hoàn toàn khí thải giao thông.</li>
-                </ul>
-            </div>
         </div>
     </div>
 
