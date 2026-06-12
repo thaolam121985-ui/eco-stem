@@ -1,18 +1,18 @@
 function tinhToanToanBo() {
-    // 1. Lấy dữ liệu đầu vào từ giao diện mới
+    // 1. Nhận diện chuẩn xác ID từ file HTML mới
     let heSoXang = parseFloat(document.getElementById('loaiXang').value);
     let litXang = parseFloat(document.getElementById('litXang').value);
     let soDien = parseFloat(document.getElementById('soDien').value);
     let kgRac = parseFloat(document.getElementById('kgRac').value);
     let khoiNuoc = parseFloat(document.getElementById('khoiNuoc').value);
 
-    // 2. Cập nhật con số hiển thị ngay cạnh thanh kéo slider
+    // 2. Ép số liệu hiển thị lên màn hình ngay cạnh thanh slider
     document.getElementById('valXang').innerText = litXang;
     document.getElementById('valDien').innerText = soDien;
     document.getElementById('valRac').innerText = kgRac;
     document.getElementById('valNuoc').innerText = khoiNuoc;
 
-    // 3. Xử lý thay đổi Emoji trạng thái động
+    // 3. Thay đổi Emoji linh hoạt theo mức độ sử dụng
     let emojiXang = document.getElementById('emojiXang');
     if (litXang === 0) emojiXang.innerText = "🚲";
     else if (litXang <= 20) emojiXang.innerText = "🛵";
@@ -33,39 +33,39 @@ function tinhToanToanBo() {
     else if (khoiNuoc <= 25) emojiNuoc.innerText = "🚰";
     else emojiNuoc.innerText = "🌊⚠️";
 
-    // 4. Công thức toán học tính lượng phát thải CO2 hàng tháng
+    // 4. Các công thức tính toán chỉ số phát thải CO2 (kg CO2 / tháng)
     let carbonXang = litXang * heSoXang;
     let carbonDien = soDien * 0.8; 
-    let carbonRac = (kgRac * 4) * 0.5; // Quy đổi rác tuần thành rác tháng rồi nhân hệ số
-    let carbonNuoc = khoiNuoc * 0.34;  // Hệ số phát thải của nước sạch thông thường
+    let carbonRac = (kgRac * 4) * 0.5; // Quy đổi rác tuần sang tháng rồi nhân hệ số 0.5
+    let carbonNuoc = khoiNuoc * 0.34;  // Lượng CO2 sinh ra trên mỗi khối nước tiêu thụ
     
     let tongThang = carbonXang + carbonDien + carbonRac + carbonNuoc;
     let tongNam = tongThang * 12;
 
-    // Hiển thị tổng số Carbon
+    // Xuất tổng lượng Carbon ra màn hình chính
     document.getElementById('tongCarbon').innerText = tongThang.toFixed(2) + " kg CO₂ / tháng";
 
-    // 5. Tính số cây xanh cần bù đắp trong 1 năm
+    // 5. Quy đổi ra số lượng cây xanh cần trồng để trung hòa CO2
     let soCayCanTrong = Math.ceil(tongNam / 22);
     document.getElementById('treeCount').innerText = soCayCanTrong + " Cây xanh / năm";
 
-    // 6. Phân loại mức độ thân thiện môi trường
+    // 6. Cập nhật nhãn trạng thái và màu sắc tương ứng
     let status = document.getElementById('statusText');
-    if(tongThang < 100) {
+    if(tongThang < 120) {
         status.innerText = "🌱 Mức siêu xanh";
         status.style.background = "rgba(86, 211, 100, 0.12)";
         status.style.color = "#56d364";
-    } else if(tongThang <= 250) {
+    } else if(tongThang <= 280) {
         status.innerText = "⚠️ Mức trung bình! Hãy chú ý tiết kiệm năng lượng.";
         status.style.background = "rgba(240, 140, 0, 0.12)";
         status.style.color = "#e3b341";
     } else {
-        status.innerText = "🚨 Mức báo động! Khí thải quá cao.";
+        status.innerText = "🚨 Mức báo động! Khí thải đang ở mức quá cao.";
         status.style.background = "rgba(248, 81, 73, 0.12)";
         status.style.color = "#f85149";
     }
 
-    // 7. Cập nhật tỷ lệ % và chiều rộng thanh Progress Bar chạy động
+    // 7. Tính phần trăm tỷ lệ và đẩy thanh đồ thị chạy động (Progress Bar)
     if(tongThang > 0) {
         let pXang = (carbonXang / tongThang) * 100;
         let pDien = (carbonDien / tongThang) * 100;
@@ -89,33 +89,33 @@ function tinhToanToanBo() {
         document.getElementById('txtNuocKg').innerText = carbonNuoc.toFixed(1) + " kg CO₂";
     }
 
-    // 8. So sánh với mức chuẩn trung bình (Giả định mức chuẩn xanh là 180kg)
+    // 8. Đưa ra so sánh với mức trung bình của học sinh
     let soSanhBox = document.getElementById('compareBox');
-    let mucChuan = 180;
+    let mucChuan = 200;
     if (tongThang < mucChuan) {
         let phanTramThap = ((mucChuan - tongThang) / mucChuan * 100).toFixed(0);
-        soSanhBox.innerHTML = `📉 Chỉ số phát thải của bạn <b>thấp hơn ${phanTramThap}%</b> so với trung bình quốc gia.`;
+        soSanhBox.innerHTML = `📉 Chỉ số phát thải của bạn <b>thấp hơn ${phanTramThap}%</b> so với mức trung bình chuẩn.`;
     } else {
         let phanTramCao = ((tongThang - mucChuan) / mucChuan * 100).toFixed(0);
-        soSanhBox.innerHTML = `📈 Chỉ số phát thải của bạn <b>cao hơn ${phanTramCao}%</b> so với trung bình quốc gia.`;
+        soSanhBox.innerHTML = `📈 Chỉ số phát thải của bạn <b>cao hơn ${phanTramCao}%</b> so với mức trung bình chuẩn.`;
     }
 
-    // 9. Đề xuất chiến lược hành động thông minh
+    // 9. Tự động đề xuất giải pháp dựa trên nguồn gây ô nhiễm lớn nhất
     let advice = document.getElementById('adviceBox');
     let maxCarbon = Math.max(carbonXang, carbonDien, carbonRac, carbonNuoc);
     
     if(maxCarbon === carbonXang) {
-        advice.innerHTML = "💡 <b>Chiến lược hành động:</b> Khí thải từ việc di chuyển xe máy chiếm tỷ trọng lớn nhất. Gia đình bồ nên cân nhắc chuyển sang đi chung xe, sử dụng xe đạp điện hoặc đổ dòng <b>Xăng sinh học cao cấp E10</b> để giảm bớt ô nhiễm nhé.";
+        advice.innerHTML = "💡 <b>Chiến lược hành động:</b> Khí thải từ phương tiện di chuyển chiếm tỷ trọng lớn nhất. Hãy ưu tiên đi bộ, đi xe đạp hoặc đổ dòng <b>Xăng sinh học cao cấp E10</b> để giảm bớt khí độc ra môi trường.";
     } else if(maxCarbon === carbonDien) {
-        advice.innerHTML = "💡 <b>Chiến lược hành động:</b> Thiết bị điện trong nhà đang tiêu thụ lượng điện lớn. Hãy rèn luyện thói quen tắt bớt đèn, rút hẳn phích cắm khi không dùng và đặt nhiệt độ máy lạnh từ 26°C trở lên.";
+        advice.innerHTML = "💡 <b>Chiến lược hành động:</b> Tiêu thụ điện năng trong nhà đang là nguyên nhân gây ô nhiễm nhiều nhất. Bồ nên tập thói quen tắt bớt các thiết bị không cần thiết và chỉnh điều hòa từ 26°C.";
     } else if(maxCarbon === carbonRac) {
-        advice.innerHTML = "💡 <b>Chiến lược hành động:</b> Rác thải sinh hoạt nhà bồ đang sinh ra khí Mê-tan rất cao. Hãy hạn chế sử dụng túi nilon, hộp nhựa một lần và tích cực thực hiện phân loại rác tái chế ngay tại nguồn.";
+        advice.innerHTML = "💡 <b>Chiến lược hành động:</b> Lượng rác thải sinh hoạt thải ra đang sinh khí nhà kính rất cao. Hãy hạn chế sử dụng túi nilon, đồ nhựa dùng một lần và phân loại rác tái chế ngay tại nhà.";
     } else {
-        advice.innerHTML = "💡 <b>Chiến lược hành động:</b> Lượng nước tiêu thụ hàng tháng đang chiếm ưu thế phát thải. Hãy kiểm tra lại hệ thống đường ống để tránh rò rỉ và tái sử dụng nước rửa rau để tưới cây nhé!";
+        advice.innerHTML = "💡 <b>Chiến lược hành động:</b> Nguồn nước sử dụng hàng tháng tạo áp lực phát thải lớn. Hãy thường xuyên kiểm tra vòi nước tránh rò rỉ và tận dụng nước rửa rau để tưới cây nhé!";
     }
 }
 
-// Hệ thống tính điểm Thử thách sống xanh
+// Hệ thống tính điểm Thử thách trò chơi sống xanh
 function tinhDiemRank() {
     let diem = 0;
     if(document.getElementById('nv1').checked) diem += 20;
@@ -147,8 +147,8 @@ function toggleCheck(id) {
     tinhDiemRank();
 }
 
-// Kích hoạt tính toán ngay khi trang web vừa mở lên
-window.onload = function() {
+// Đảm bảo chạy tính toán ngay khi load trang
+window.addEventListener('DOMContentLoaded', () => {
     tinhToanToanBo();
     tinhDiemRank();
-};
+});
