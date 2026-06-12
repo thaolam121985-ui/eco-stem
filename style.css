@@ -275,3 +275,7 @@ footer {
     font-size: 11px;
     border-top: 1px solid #262c36;
 }
+/* Đảm bảo nút chát AI luôn hiển thị trên cùng giao diện */
+.coze-webchat-container {
+    z-index: 99999 !important;
+}
