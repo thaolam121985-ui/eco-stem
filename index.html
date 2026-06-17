@@ -67,7 +67,7 @@
             </div>
             <div class="task-item" onclick="toggleCheck('nv2')">
                 <input type="checkbox" id="nv2" onclick="event.stopPropagation(); tinhDiemRank();">
-                <div>🔌 Tắt toàn bộ thiết bị điện không dùng khi rời phòng (+20 điểm)</div>
+                <div>🔌 Tắt toàn bộ thiết bị điện không dùng khi không sử dụng (+20 điểm)</div>
             </div>
             <div class="task-item" onclick="toggleCheck('nv3')">
                 <input type="checkbox" id="nv3" onclick="event.stopPropagation(); tinhDiemRank();">
@@ -114,7 +114,7 @@
                 
                 <div>
                     <div class="progress-labels">
-                        <span>🔌 Điện năng gia đình: <b id="ptDien">0%</b></span>
+                        <span>🔌 Điện năng tiêu thụ gia đình: <b id="ptDien">0%</b></span>
                         <span id="txtDienKg" class="kg-sub">0 kg CO₂</span>
                     </div>
                     <div class="progress-bar"><div id="barDien" class="progress-fill fill-blue"></div></div>
@@ -130,7 +130,7 @@
 
                 <div>
                     <div class="progress-labels">
-                        <span>💧 Tiêu thụ nước sạch: <b id="ptNuoc">0%</b></span>
+                        <span>💧 Lượng nước tiêu thụ: <b id="ptNuoc">0%</b></span>
                         <span id="txtNuocKg" class="kg-sub">0 kg CO₂</span>
                     </div>
                     <div class="progress-bar"><div id="barNuoc" class="progress-fill fill-cyan"></div></div>
